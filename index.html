@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Jomokers832 Discord Server</title>
+
+<style>
+#title{
+  font-size:48px;
+  font-weight:bold;
+  background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, purple, red);
+  background-size: 800% 800%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rgbMove 5s linear infinite;
+  text-align:center;
+}
+
+@keyframes rgbMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+margin:0;
+}
+
+header{
+background:#111827;
+padding:30px;
+text-align:center;
+}
+
+.container{
+padding:30px;
+text-align:center;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+margin:20px auto;
+border-radius:10px;
+width:320px;
+}
+
+.member{
+font-size:28px;
+font-weight:bold;
+margin-top:10px;
+background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, purple, red);
+background-size: 800% 800%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: rgbMove 5s linear infinite;
+}
+
+@keyframes rgbMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+button{
+padding:12px 20px;
+background:#5865F2;
+border:none;
+border-radius:8px;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#4752c4;
+}
+
+footer{
+text-align:center;
+padding:20px;
+background:#111827;
+margin-top:40px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1 id="title">Jomokers832</h1>
+<p>Official Discord Community</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h3>About Server</h3>
+<p>Server Discord komunitas untuk ngobrol, main game, sharing, dan event seru.</p>
+</div>
+
+<div class="card">
+<h3>Server Information</h3>
+<p>📅 Dibuat: 2026</p>
+<p>👥 Member Discord:</p>
+<div class="member" id="memberCount">Loading...</div>
+<p>🎮 Fokus: Gaming & Community</p>
+</div>
+
+<div class="card">
+<h3>Rules</h3>
+<p>1. Jangan toxic</p>
+<p>2. Jangan spam</p>
+<p>3. Hormati semua member</p>
+<p>4. No cheat / scam</p>
+</div>
+
+<div class="card">
+<h3>Channels</h3>
+<p>💬•🅙🅞🅜🅞🅚•🅒🅗🅐🅣</p>
+<p>📢 announcements</p>
+<p>🎉𝐕𝐈𝐃𝐈𝐎•𝐊𝐎𝐍𝐒𝐄𝐑•𝐉𝐌𝐊𝟒𝟓</p>
+<p>📷𝐅𝐎𝐓𝐎•𝐀𝐍𝐆𝐆𝐎𝐓𝐀•𝐉𝐌𝐊𝟒𝟓</p>
+<p>😈𝐏𝐄𝐍𝐆𝐇𝐈𝐓𝐀𝐌𝐀𝐍</p>
+</div>
+
+<div class="card">
+<h3>Staff Team</h3>
+<p>👑 Owner</p>
+<p>Justin Booby</p>
+
+<p>🛡️ Admin</p>
+bangfatirlagingocok
+Justin Bobby
+
+<p>⚔️ Moderator</p>
+Justin Bobby
+</div>
+
+<div class="card">
+<h3>Events</h3>
+<p>kosong</p>
+<p>kosong</p>
+<p>kosong</p>
+</div>
+
+<div class="card">
+<h3>Join Server</h3>
+<button onclick="join()">Join Discord</button>
+</div>
+
+</div>
+
+<footer>
+<p>© 2026 Jomokers832 Discord</p>
+</footer>
+
+<script>
+
+const invite = "2qxDkJjT8";
+
+fetch(`https://discord.com/api/v9/invites/${invite}?with_counts=true`)
+.then(res => res.json())
+.then(data => {
+
+document.getElementById("memberCount").innerText =
+data.approximate_member_count + " Members";
+
+})
+.catch(() => {
+document.getElementById("memberCount").innerText = "Tidak bisa mengambil data";
+});
+
+function join(){
+window.location.href="https://discord.gg/2qxDkJjT8";
+}
+
+</script>
+
+</body>
+</html>
