@@ -9,63 +9,75 @@
 body {
     margin: 0;
     font-family: Arial;
-    background: #0b0b0b;
+    background: linear-gradient(180deg,#0b0b0b,#1a1a1a);
     color: white;
-}
-
-/* NAVBAR */
-.navbar {
-    background: black;
-    padding: 10px;
-    display: flex;
-    justify-content: space-around;
-    border-bottom: 2px solid red;
-}
-
-.navbar button {
-    background: none;
-    border: none;
-    color: lime;
-    font-weight: bold;
-    cursor: pointer;
 }
 
 /* CONTAINER */
 .container {
-    padding: 20px;
+    padding: 15px;
+    padding-bottom: 90px;
+}
+
+/* CARD */
+.card {
+    background: #111;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0,255,0,0.2);
 }
 
 /* INPUT */
 input, textarea {
     width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
+    padding: 12px;
+    margin: 6px 0;
+    border-radius: 8px;
     border: none;
 }
 
 /* BUTTON */
-button.main {
+button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background: green;
     color: white;
     border: none;
-    border-radius: 5px;
-    margin-top: 10px;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: black;
+    display: flex;
+    justify-content: space-around;
+    border-top: 2px solid red;
+    padding: 10px 0;
+}
+
+.bottom-nav button {
+    background: none;
+    border: none;
+    color: lime;
+    font-size: 12px;
 }
 
 /* PROFILE */
 .banner {
     width: 100%;
-    height: 180px;
+    height: 160px;
     object-fit: cover;
-    background: gray;
+    border-radius: 10px;
 }
 
 .profile-pic {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     margin-top: -40px;
     border: 3px solid black;
@@ -76,6 +88,22 @@ h1 {
     text-align: center;
     color: red;
 }
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    font-size: 12px;
+    color: gray;
+    margin-top: 20px;
+}
+
+/* RESPONSIVE */
+@media (min-width: 768px) {
+.container {
+    max-width: 500px;
+    margin: auto;
+}
+}
 </style>
 </head>
 
@@ -83,178 +111,200 @@ h1 {
 
 <div id="app"></div>
 
+<!-- 🎵 MUSIK NO COPYRIGHT -->
+<audio id="bgm" autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b9c0b.mp3?filename=gaming-music-ambient-110624.mp3" type="audio/mp3">
+</audio>
+
 <script>
 let users = JSON.parse(localStorage.getItem("users") || "[]");
 let currentUser = null;
 
-function save() {
-    localStorage.setItem("users", JSON.stringify(users));
+function save(){
+localStorage.setItem("users", JSON.stringify(users));
+}
+
+/* NAV BAWAH */
+function nav(){
+return `
+<div class="bottom-nav">
+<button onclick="home()">Home</button>
+<button onclick="info()">Info</button>
+<button onclick="rules()">Rules</button>
+<button onclick="profile()">Profile</button>
+<button onclick="settings()">Settings</button>
+</div>`;
 }
 
 /* LOGIN */
-function showLogin() {
-document.getElementById("app").innerHTML = `
+function loginPage(){
+app.innerHTML = `
 <div class="container">
 <h1>JOMOKERS832</h1>
-<h2>Login</h2>
-<input id="luser" placeholder="Username">
-<input id="lpass" type="password" placeholder="Password">
-<button class="main" onclick="login()">Login</button>
-<p onclick="showRegister()" style="color:lime;cursor:pointer;">Belum punya akun? Klik sini</p>
+<div class="card">
+<input id="u" placeholder="Username">
+<input id="p" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<p onclick="registerPage()" style="color:lime;cursor:pointer;">Belum punya akun? Klik</p>
+</div>
 </div>`;
 }
 
 /* REGISTER */
-function showRegister() {
-document.getElementById("app").innerHTML = `
+function registerPage(){
+app.innerHTML = `
 <div class="container">
-<h1>Register</h1>
-<input id="ruser" placeholder="Username">
-<input id="rname" placeholder="Nama optional">
-<input id="rpass" type="password" placeholder="Password">
-<button class="main" onclick="register()">Register</button>
+<div class="card">
+<input id="ru" placeholder="Username">
+<input id="rn" placeholder="Nama optional">
+<input id="rp" type="password" placeholder="Password">
+<button onclick="register()">Register</button>
+</div>
 </div>`;
 }
 
-function register() {
-let u = ruser.value;
-let n = rname.value;
-let p = rpass.value;
-
-if(!u || !p) return alert("Isi dulu semua");
-
-users.push({username:u,name:n,password:p,about:"",banner:"",photo:""});
+function register(){
+if(!ru.value || !rp.value) return alert("Isi dulu");
+users.push({username:ru.value,name:rn.value,password:rp.value,about:"",banner:"",photo:""});
 save();
-alert("Berhasil!");
-showLogin();
+alert("Berhasil");
+loginPage();
 }
 
-function login() {
-let u = luser.value;
-let p = lpass.value;
-
-let user = users.find(x => x.username==u && x.password==p);
+function login(){
+let user = users.find(x=>x.username==u.value && x.password==p.value);
 if(!user) return alert("Salah");
-
 currentUser = user;
-showHome();
-}
-
-/* NAV */
-function navbar() {
-return `
-<div class="navbar">
-<button onclick="showHome()">Home</button>
-<button onclick="showInfo()">Info</button>
-<button onclick="showRules()">Rules</button>
-<button onclick="showProfile()">Profile</button>
-<button onclick="showSettings()">Settings</button>
-</div>`;
+home();
 }
 
 /* HOME */
-function showHome() {
-app.innerHTML = navbar() + `
+function home(){
+app.innerHTML = `
 <div class="container">
+<div class="card">
 <h2>Welcome ${currentUser.username}</h2>
-<p>Selamat datang di JOMOKERS832 website.</p>
-</div>`;
+<p>Selamat datang di website JOMOKERS832</p>
+</div>
+
+<div class="card">
+<h3>Update</h3>
+<p>Website ini sudah support Android, PC, dan Laptop</p>
+</div>
+
+<div class="footer">JOMOKERS832 © 2026</div>
+</div>
+` + nav();
 }
 
 /* INFO */
-function showInfo() {
-app.innerHTML = navbar() + `
+function info(){
+app.innerHTML = `
 <div class="container">
+<div class="card">
 <h2>INFO</h2>
 <p>Total Member: ${users.length}</p>
-<button class="main" onclick="window.open('https://discord.gg/zafQ2ukDWb')">Join Discord</button>
-</div>`;
+<button onclick="window.open('https://discord.gg/zafQ2ukDWb')">Join Discord</button>
+</div>
+</div>
+` + nav();
 }
 
 /* RULES */
-function showRules() {
-app.innerHTML = navbar() + `
+function rules(){
+app.innerHTML = `
 <div class="container">
+<div class="card">
 <h2>RULES</h2>
 <p>
-- Hormati member<br>
-- No toxic<br>
-- No spam<br>
+- Hormati semua member<br>
+- Dilarang toxic<br>
+- Dilarang spam<br>
 - Ikuti admin<br>
-- Jaga komunitas<br>
+- Jaga komunitas tetap aman<br>
+- Gunakan bahasa sopan<br>
+- Tidak boleh share ilegal<br>
+- Pelanggaran akan diberi sanksi
 </p>
-</div>`;
+</div>
+</div>
+` + nav();
 }
 
 /* PROFILE */
-function showProfile() {
-app.innerHTML = navbar() + `
+function profile(){
+app.innerHTML = `
 <div class="container">
+<div class="card">
 <img class="banner" src="${currentUser.banner}">
-<input type="file" onchange="uploadBanner(event)">
-
-<center>
-<img class="profile-pic" src="${currentUser.photo}">
-</center>
-<input type="file" onchange="uploadPhoto(event)">
+<input type="file" onchange="upBanner(event)">
+<center><img class="profile-pic" src="${currentUser.photo}"></center>
+<input type="file" onchange="upPhoto(event)">
 
 <p>Username: ${currentUser.username}</p>
 <p>Nama: ${currentUser.name}</p>
 
 <textarea id="about">${currentUser.about}</textarea>
-<button class="main" onclick="saveAbout()">Save About</button>
-</div>`;
+<button onclick="saveAbout()">Save</button>
+</div>
+</div>
+` + nav();
 }
 
-function uploadBanner(e) {
-let r = new FileReader();
-r.onload = () => { currentUser.banner = r.result; save(); showProfile(); };
+function upBanner(e){
+let r=new FileReader();
+r.onload=()=>{currentUser.banner=r.result;save();profile();}
 r.readAsDataURL(e.target.files[0]);
 }
 
-function uploadPhoto(e) {
-let r = new FileReader();
-r.onload = () => { currentUser.photo = r.result; save(); showProfile(); };
+function upPhoto(e){
+let r=new FileReader();
+r.onload=()=>{currentUser.photo=r.result;save();profile();}
 r.readAsDataURL(e.target.files[0]);
 }
 
-function saveAbout() {
+function saveAbout(){
 currentUser.about = about.value;
 save();
 alert("Saved");
 }
 
 /* SETTINGS */
-function showSettings() {
-app.innerHTML = navbar() + `
+function settings(){
+app.innerHTML = `
 <div class="container">
+<div class="card">
 <h2>Settings</h2>
-<button class="main" onclick="showAccount()">Account</button>
-<button class="main" onclick="alert('Fitur masih dikembangkan')">Search Member</button>
-<button class="main" onclick="alert('Fitur masih dikembangkan')">Ganti Tema</button>
-</div>`;
+<button onclick="account()">Account</button>
+<button onclick="alert('Fitur masih dikembangkan')">Search Member</button>
+<button onclick="alert('Fitur masih dikembangkan')">Ganti Tema</button>
+</div>
+</div>
+` + nav();
 }
 
-function showAccount() {
-app.innerHTML = navbar() + `
+function account(){
+app.innerHTML = `
 <div class="container">
-<h2>Account</h2>
-<input id="newName" placeholder="Nama baru">
-<input id="newPass" placeholder="Password baru">
-<button class="main" onclick="updateAcc()">Save</button>
-</div>`;
+<div class="card">
+<input id="nn" placeholder="Nama baru">
+<input id="np" placeholder="Password baru">
+<button onclick="saveAcc()">Save</button>
+</div>
+</div>
+` + nav();
 }
 
-function updateAcc() {
-if(newName.value) currentUser.name = newName.value;
-if(newPass.value) currentUser.password = newPass.value;
+function saveAcc(){
+if(nn.value) currentUser.name=nn.value;
+if(np.value) currentUser.password=np.value;
 save();
 alert("Updated");
-showSettings();
+settings();
 }
 
-showLogin();
+loginPage();
 </script>
 
 </body>
-</html>
+</html> 
